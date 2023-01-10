@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import datetime
-import holidays
+# import holidays
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -203,10 +203,10 @@ def compound_rate(intrate,compound_input,compound_output):
 
 
 
-def bootstrap(params,maturity):
+def bootstrap(params,maturity,n_compound=None):
     estimated_maturities = params[0]
     betas = params[1]
-    estimated_rates = discount_to_intrate(betas,estimated_maturities)
+    estimated_rates = discount_to_intrate(betas,estimated_maturities,n_compound)
     
     f = interpolate.interp1d(estimated_maturities, estimated_rates, bounds_error=False, fill_value='extrapolate')
     
@@ -284,6 +284,7 @@ def price_with_rate_model(params,CF,t_current,fun_model, convert_to_discount=Tru
 
 def pricing_errors(params,CF,t_current,fun_model,observed_prices):
 
+    # return price
     price_modeled = price_with_rate_model(params,CF,t_current,fun_model)
 
     if isinstance(observed_prices,pd.DataFrame) or isinstance(observed_prices,pd.Series):
